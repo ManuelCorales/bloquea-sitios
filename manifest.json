@@ -1,0 +1,21 @@
+{
+    "name": "Extensión para bloquear páginas web de chrome",
+    "description": "Extensión para bloquear páginas web de chrome",
+    "version": "1.0",
+    "manifest_version": 3,
+    "action": {
+      "default_popup": "/pages/main.html"
+    },
+    "permissions": [
+        "tabs",
+        "activeTab"
+    ],
+    "host_permissions": [
+        "http://*/*",
+        "https://*/*"
+    ],
+    "background": {
+        "service_worker": "/src/blocker.js",
+        "type": "module"
+    }
+}
