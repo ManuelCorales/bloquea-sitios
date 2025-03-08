@@ -13,7 +13,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 function isSiteAllowed(url) {
     for(let blockedSite of blacklist) {
         if(blockedSite.hostname == url.hostname) {
-            if(blockedSite.allowedPaths && hasAllowedPath(blockedSite, url)) {
+            if(hasAllowedPath(blockedSite, url)) {
                 continue;
             }
             return false;
@@ -25,6 +25,9 @@ function isSiteAllowed(url) {
 
 
 function hasAllowedPath(blockedSite, url) {
+    // If there are no paths allowed then return false
+    if(!blockedSite.allowedPaths || blockedSite.length == 0) return false;
+
     for(let allowedPath of blockedSite.allowedPaths) {
         let parsedPath = allowedPath;
 
@@ -33,6 +36,10 @@ function hasAllowedPath(blockedSite, url) {
             parsedPath = parsedPath.slice(0, parsedPath.length - 1);
         }
 
-        return url.pathname.includes(parsedPath);
+        if(url.pathname.includes(parsedPath)) {
+            return true;
+        }
     }
+
+    return false;
 }
